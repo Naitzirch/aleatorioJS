@@ -1,5 +1,5 @@
 // Make connection
-var socket = io.connect('http://localhost:4000');
+var socket = io.connect('https://aleatorio.net', { secure: true, port: 443});
 
 // Query DOM
 var message = document.getElementById('message');
