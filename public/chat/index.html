@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Aleatorio</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.1/socket.io.min.js"></script>
+    <link rel="stylesheet" href="styles.css"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;1,300&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="wrapper">
+      <div id="header">
+        <p id="thesocket"><a href="http://aleatorio.net">Aleatorio.net</a></p>
+      </div>
+      <div id="chat-window">
+        <div id="feedback"></div>
+        <div id="output"></div>
+      </div>
+      <div id="footer">
+        <div id="input">
+          <input id="message" type="text" placeholder="Message" readonly/>
+        </div>
+        <div id="send">Start</div>
+      </div>
+    </div>
+    <script src="chat.js"></script>
+  </body>
+</html>

@@ -1,0 +1,143 @@
+*::-webkit-scrollbar {
+	width: 5px;
+}
+*::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+*::-webkit-scrollbar-thumb {
+	background: #aaa;
+}
+*::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+	padding: 0px;
+	margin: 0px;
+	height: 100%;
+	width: 100%;
+	font-family: sans-serif;
+  display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+p {
+  margin: 0;
+}
+
+#wrapper {
+  height: 100%;
+  width: 100%;
+  background-color: #f7f7f7;
+}
+
+#header {
+  height: 50px;
+  padding-left: 1em;
+  display: flex;
+  align-items: center;
+  font-size: large;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #fefbd8;
+}
+
+#chat-window {
+  height: calc(100% - 100px);
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.bubble-container {
+  margin-bottom: 2px;
+  width: 100%;
+  overflow: auto;
+}
+
+.bubble {
+  min-width: 1%;
+	min-height: 14px;
+	max-width: 80%;
+	margin-left: 10px;
+	margin-right: 10px;
+	padding: 5px;
+	background-color: pink;
+	border-radius: 6px;
+	word-break: break-all;
+}
+
+.stranger {
+  float: left;
+}
+
+.user {
+  background-color: #b5e7a0;
+  float: right;
+}
+
+#feedback {
+  color: #aaa;
+  padding: 8px 0px;
+  margin: 0 20px;
+}
+
+#footer {
+  display: flex;
+  height: 50px;
+  background-color: #d5f4e6;
+}
+
+#input {
+  width: calc(100% - 100px);
+}
+
+#message {
+  margin: 4px;
+  width: calc(100% - 36px);
+  height: calc(100% - 14px);
+  padding-left: 20px;
+  outline: none;
+  border: 3px solid #ccc;
+  font-size: large;
+}
+
+#message:focus {
+	border: 3px solid #bfd9c9;
+	caret-color: hsla(0, 1%, 62%, 0.4);
+}
+
+#send {
+  cursor: pointer;
+  margin: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 92px;
+  height: calc(100% - 8px);
+  background-color: #d5f4e6;
+  border-radius: 3px;
+	transition: 0.3s;
+  font-size: large;
+}
+
+#send:hover {
+  background-color: #bfd9c9; /*#bfd9c9*/
+	transition: 0.5s;
+}
+
+@media screen and (min-width: 1000px){
+  #wrapper {
+    width: 1000px;
+  }
+}
