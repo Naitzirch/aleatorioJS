@@ -21,19 +21,30 @@ io.on('connection', function(socket){
 
   // Handle pairing event
   socket.on('search', function(){
+    if (io.sockets.adapter.rooms.get(destination) &&
+        io.sockets.adapter.rooms.get(destination).has(socket.id)){
+      quit_room(socket.id);
+      return
+    }
     roomFound = false;
     for (room in roomsArray) {
       if (io.sockets.adapter.rooms.get(roomsArray[room]).size < 2) {
-        socket.join(roomsArray[room]);
-        io.to(roomsArray[room]).emit('roomFound')
-        roomFound = true;
         destination = roomsArray[room];
+        socket.join(destination);
+        io.to(destination).emit('roomFound');
+        roomFound = true;
+        console.log(io.sockets.adapter.rooms);
         break;
       }
     }
     if (!roomFound) {
-      roomsArray.push(socket.id);
-      destination = socket.id;
+      var taken = true;
+      while (taken){
+        destination = Math.random().toString(36).substr(2, 5);
+        taken = ((roomsArray.includes(destination)) ? true : false);
+      }
+      roomsArray.push(destination);
+      socket.join(destination);
     }
   });
 
@@ -41,6 +52,9 @@ io.on('connection', function(socket){
   socket.on('chat', function(data){
     if (io.sockets.adapter.rooms.get(destination) &&
         io.sockets.adapter.rooms.get(destination).has(socket.id)){
+      data = {
+        message: data.message.replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      }
       io.to(destination).emit('chat', data, socket.id);
     }
   });
@@ -54,40 +68,23 @@ io.on('connection', function(socket){
 
   // Handle Stop event
   socket.on('stop', function(){
-
-    const index = roomsArray.indexOf(destination);
-    if (index > -1){
-      roomsArray.splice(index, 1);
-    }
-
-    io.to(destination).emit('strangerQuit', socket.id);
-
-    if (socket.id != destination){
-      io.sockets.adapter.rooms.get(destination).delete(socket.id);
-    }
-    else {
-      for (var user of io.sockets.adapter.rooms.get(destination)){
-        if (user != socket.id){
-          io.sockets.adapter.rooms.get(destination).delete(user);
-        }
-      }
-    }
-
+    quit_room(socket.id);
   });
 
   // Disconnect logic
   socket.on('disconnect', function(){
     console.log('disconnect');
-    io.to(destination).emit('strangerQuit');
-    const index = roomsArray.indexOf(destination);
-    if (index > -1){
-      roomsArray.splice(index, 1);
-    }
-    if (socket.id === destination){
-      io.sockets.adapter.rooms.delete(destination);
-    }
+    quit_room(socket.id);
   });
 
 });
 
+function quit_room(socketId){
+  io.to(destination).emit('strangerQuit', socketId);
+  io.sockets.adapter.rooms.delete(destination);
+  const index = roomsArray.indexOf(destination);
+  if (index > -1){
+    roomsArray.splice(index, 1);
+  }
+}
 //
