@@ -51,7 +51,8 @@ io.on('connection', function(socket){
   // Handle chat event
   socket.on('chat', function(data){
     if (io.sockets.adapter.rooms.get(destination) &&
-        io.sockets.adapter.rooms.get(destination).has(socket.id)){
+        io.sockets.adapter.rooms.get(destination).has(socket.id &&
+        data.message !== 'undefined')){
       data = {
         message: data.message.replace(/</g, "&lt;").replace(/>/g, "&gt;")
       }
@@ -86,5 +87,6 @@ function quit_room(socketId){
   if (index > -1){
     roomsArray.splice(index, 1);
   }
+  destination = "";
 }
 //
