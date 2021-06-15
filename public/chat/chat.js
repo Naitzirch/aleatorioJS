@@ -1,9 +1,16 @@
 // Make connection
-var socket = io.connect('https://aleatorio.net', { secure: true, port: 443});
+var development = false;
+var socket;
+if (development){
+  socket = io.connect('http://localhost:4000');
+}
+else {
+  socket = io.connect('https://aleatorio.net', { secure: true, port: 443});
+}
+
 
 // Query DOM
 var message = document.getElementById('message');
-    //handle = document.getElementById('handle'),
     btn = document.getElementById('send'),
     output = document.getElementById('output'),
     feedback = document.getElementById('feedback'),
@@ -28,7 +35,7 @@ btn.addEventListener('click', function(){
 message.addEventListener('keypress', function(e){
   if (e.key === 'Enter') {
     socket.emit('chat', {
-      message: message.value.replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      message: message.value
     });
     message.value = '';
   }
@@ -72,11 +79,11 @@ socket.on('typing', function(socketId){
 
 socket.on('strangerQuit', function(socketId){
   message.setAttribute('readonly', true);
-  if (socket.id != socketId){
-    feedback.innerHTML = "Stranger disconnected";
+  if (socket.id === socketId){
+    feedback.innerHTML = "You disconnected";
   }
   else {
-    feedback.innerHTML = "You disconnected";
+    feedback.innerHTML = "Stranger disconnected";
   }
   btn.innerHTML = "Start";
 });
