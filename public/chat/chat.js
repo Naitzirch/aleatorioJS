@@ -1,5 +1,5 @@
 // Make connection
-var development = false;
+var development = true;
 var socket;
 if (development){
   socket = io.connect('http://localhost:4000');
@@ -37,16 +37,18 @@ message.addEventListener('keypress', function(e){
   }
 });
 
-message.addEventListener('keydown', function(){
-  if (btn.innerHTML === 'Sure?'){
-    btn.innerHTML = 'Stop';
+message.addEventListener('keydown', function(e){
+  if (e.key != 'Escape'){
+    if (btn.innerHTML === 'Sure?'){
+      btn.innerHTML = 'Esc';
+    }
+    socket.emit('typing');
   }
-  socket.emit('typing');
 });
 
 // Listen for events
 socket.on('roomFound', function(){
-  btn.innerHTML = 'Stop';
+  btn.innerHTML = 'Esc';
   //thesocket.innerHTML += socket.id;
   message.removeAttribute('disabled');
   message.style.backgroundColor = "white";
@@ -95,9 +97,8 @@ function buttonLogic(){
     btn.innerText = 'Searching';
     socket.emit('search');
   }
-  else if (btn.innerText === 'Stop'){
+  else if (btn.innerText === 'Esc'){
     btn.innerHTML = 'Sure?';
-    message.blur();
   } else if (btn.innerText === 'Sure?'){
     socket.emit('stop');
   }
