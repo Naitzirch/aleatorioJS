@@ -110,6 +110,7 @@ p {
   outline: none;
   border: 3px solid #ccc;
   font-size: large;
+	background-color: lightgray;
 }
 
 #message:focus {
@@ -135,6 +136,7 @@ p {
   background-color: #bfd9c9; /*#bfd9c9*/
 	transition: 0.5s;
 }
+
 
 @media screen and (min-width: 1000px){
   #wrapper {

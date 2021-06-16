@@ -18,22 +18,18 @@ var message = document.getElementById('message');
 
 // Emit events
 btn.addEventListener('click', function(){
-  if (btn.innerHTML === 'Start'){
-    output.innerHTML = "";
-    feedback.innerHTML = "";
-    message.value = '';
-    btn.innerHTML = 'Searching';
-    socket.emit('search');
-  }
-  else if (btn.innerHTML === 'Stop'){
-    btn.innerHTML = 'Sure?';
-  } else if (btn.innerHTML === 'Sure?'){
-    socket.emit('stop');
-  }
+  buttonLogic();
+});
+
+document.addEventListener('keydown', function(e){
+  console.log(e.key);
+	if(e.key === 'Escape'){
+		buttonLogic();
+	}
 });
 
 message.addEventListener('keypress', function(e){
-  if (e.key === 'Enter') {
+  if (e.key === 'Enter'){
     socket.emit('chat', {
       message: message.value
     });
@@ -52,7 +48,8 @@ message.addEventListener('keydown', function(){
 socket.on('roomFound', function(){
   btn.innerHTML = 'Stop';
   //thesocket.innerHTML += socket.id;
-  message.removeAttribute('readonly');
+  message.removeAttribute('disabled');
+  message.style.backgroundColor = "white";
 });
 
 socket.on('chat', function(data, socketId){
@@ -78,7 +75,8 @@ socket.on('typing', function(socketId){
 });
 
 socket.on('strangerQuit', function(socketId){
-  message.setAttribute('readonly', true);
+  message.setAttribute('disabled', true);
+  message.style.backgroundColor = "lightgray";
   if (socket.id === socketId){
     feedback.innerHTML = "You disconnected";
   }
@@ -87,3 +85,20 @@ socket.on('strangerQuit', function(socketId){
   }
   btn.innerHTML = "Start";
 });
+
+//Functions
+function buttonLogic(){
+  if (btn.innerText === 'Start'){
+    output.innerHTML = "";
+    feedback.innerHTML = "";
+    message.value = '';
+    btn.innerText = 'Searching';
+    socket.emit('search');
+  }
+  else if (btn.innerText === 'Stop'){
+    btn.innerHTML = 'Sure?';
+    message.blur();
+  } else if (btn.innerText === 'Sure?'){
+    socket.emit('stop');
+  }
+}
