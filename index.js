@@ -33,7 +33,6 @@ io.on('connection', function(socket){
         socket.join(destination);
         io.to(destination).emit('roomFound');
         roomFound = true;
-        console.log(io.sockets.adapter.rooms);
         break;
       }
     }
@@ -51,8 +50,8 @@ io.on('connection', function(socket){
   // Handle chat event
   socket.on('chat', function(data){
     if (io.sockets.adapter.rooms.get(destination) &&
-        io.sockets.adapter.rooms.get(destination).has(socket.id &&
-        data.message !== 'undefined')){
+        io.sockets.adapter.rooms.get(destination).has(socket.id) &&
+        typeof data.message !== 'undefined'){
       data = {
         message: data.message.replace(/</g, "&lt;").replace(/>/g, "&gt;")
       }
