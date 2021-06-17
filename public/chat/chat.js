@@ -1,5 +1,5 @@
 // Make connection
-var development = false;
+var development = true;
 var socket;
 if (development){
   socket = io.connect('http://localhost:4000');
@@ -22,7 +22,6 @@ btn.addEventListener('click', function(){
 });
 
 document.addEventListener('keydown', function(e){
-  console.log(e.key);
 	if(e.key === 'Escape'){
 		buttonLogic();
 	}
@@ -49,7 +48,7 @@ message.addEventListener('keydown', function(e){
 // Listen for events
 socket.on('roomFound', function(){
   btn.innerHTML = 'Esc';
-  //thesocket.innerHTML += socket.id;
+  //thesocket.innerHTML += (" " + socket.id);
   message.removeAttribute('disabled');
   message.style.backgroundColor = "white";
 });

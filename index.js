@@ -13,17 +13,17 @@ app.use(express.static('public'));
 // Socket setup
 var io = socket(server);
 
-var destination;
 var roomsArray = [];
 
 io.on('connection', function(socket){
   console.log('made socket connection', socket.id)
+  var destination;
 
   // Handle pairing event
   socket.on('search', function(){
     if (io.sockets.adapter.rooms.get(destination) &&
         io.sockets.adapter.rooms.get(destination).has(socket.id)){
-      quit_room(socket.id);
+      quit_room(destination, socket.id);
       return
     }
     roomFound = false;
@@ -68,18 +68,18 @@ io.on('connection', function(socket){
 
   // Handle Stop event
   socket.on('stop', function(){
-    quit_room(socket.id);
+    quit_room(destination, socket.id);
   });
 
   // Disconnect logic
   socket.on('disconnect', function(){
     console.log('disconnect');
-    quit_room(socket.id);
+    quit_room(destination, socket.id);
   });
 
 });
 
-function quit_room(socketId){
+function quit_room(destination, socketId){
   const index = roomsArray.indexOf(destination);
   if (index > -1){
     roomsArray.splice(index, 1);
