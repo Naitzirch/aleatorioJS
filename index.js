@@ -80,12 +80,12 @@ io.on('connection', function(socket){
 });
 
 function quit_room(socketId){
-  io.to(destination).emit('strangerQuit', socketId);
-  io.sockets.adapter.rooms.delete(destination);
   const index = roomsArray.indexOf(destination);
   if (index > -1){
     roomsArray.splice(index, 1);
   }
+  io.to(destination).emit('strangerQuit', socketId);
+  io.sockets.adapter.rooms.delete(destination);
   destination = "";
 }
 //

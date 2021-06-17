@@ -99,7 +99,8 @@ function buttonLogic(){
   }
   else if (btn.innerText === 'Esc'){
     btn.innerHTML = 'Sure?';
-  } else if (btn.innerText === 'Sure?'){
+  }
+  else if (btn.innerText === 'Sure?' || btn.innerText === 'Searching'){
     socket.emit('stop');
   }
 }
