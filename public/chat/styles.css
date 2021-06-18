@@ -128,8 +128,9 @@ p {
   height: calc(100% - 8px);
   background-color: #d5f4e6;
   border-radius: 3px;
-	transition: 0.3s;
+	transition: color 0.3s;
   font-size: large;
+	user-select: none;
 }
 
 #send:hover {
@@ -144,7 +145,7 @@ p {
   }
 }
 
-@media screen and (max-width: 950px){
+@media screen and (max-width: 499px){
 
   #message {
 		border-radius: 50px;

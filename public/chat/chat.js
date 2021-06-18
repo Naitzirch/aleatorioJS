@@ -46,6 +46,10 @@ message.addEventListener('keydown', function(e){
 });
 
 // Listen for events
+socket.on('connect', function(){
+  socket.emit('search');
+});
+
 socket.on('roomFound', function(){
   btn.innerHTML = 'Esc';
   //thesocket.innerHTML += (" " + socket.id);
