@@ -55,7 +55,9 @@ io.on('connection', function(socket){
       data = {
         message: data.message.replace(/</g, "&lt;").replace(/>/g, "&gt;")
       }
-      io.to(destination).emit('chat', data, socket.id);
+      if (data.message.replace(/\s/g, '').length){
+        io.to(destination).emit('chat', data, socket.id);
+      }
     }
   });
 
