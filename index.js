@@ -1,8 +1,10 @@
 var express = require('express');
 var socket = require('socket.io');
+var favicon = require('serve-favicon');
 
 // App setup
 var app = express();
+app.use(favicon('favicon.ico'));
 var server = app.listen(4000, function(){
   console.log('listening to requests on port 4000');
 });
