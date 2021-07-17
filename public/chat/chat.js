@@ -1,5 +1,5 @@
 // Make connection
-var development = false;
+var development = true;
 var socket;
 if (development){
   socket = io.connect('http://localhost:4000');
@@ -37,11 +37,12 @@ message.addEventListener('keypress', function(e){
 });
 
 message.addEventListener('keydown', function(e){
-  if (e.key != 'Escape'){
+  if (e.key != 'Escape' && e.key != 'Enter'){
     if (btn.innerHTML === 'Sure?'){
       btn.innerHTML = 'Esc';
     }
     socket.emit('typing');
+    socket.emit('stopTyping');
   }
 });
 
@@ -76,6 +77,12 @@ socket.on('chat', function(data, socketId){
 socket.on('typing', function(socketId){
   if (socket.id != socketId){
     feedback.innerHTML = '<p><em>Stranger is typing a message...</em></p>';
+  }
+});
+
+socket.on('removeFeedback', function(socketId){
+  if (socket.id != socketId){
+    feedback.innerHTML = "";
   }
 });
 

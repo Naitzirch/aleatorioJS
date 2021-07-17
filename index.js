@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 
 // App setup
 var app = express();
-app.use(favicon('favicon.ico'));
+app.use(favicon('favicon.png'));
 var server = app.listen(4000, function(){
   console.log('listening to requests on port 4000');
 });
@@ -63,11 +63,20 @@ io.on('connection', function(socket){
     }
   });
 
+var typeFeedback;
+
   socket.on('typing', function(){
     if (io.sockets.adapter.rooms.get(destination) &&
         io.sockets.adapter.rooms.get(destination).has(socket.id)){
       io.to(destination).emit('typing', socket.id);
+      clearTimeout(typeFeedback);
     }
+  });
+
+  socket.on('stopTyping', function() {
+    typeFeedback = setTimeout(function() {
+      io.to(destination).emit('removeFeedback', socket.id);
+    }, 3000);
   });
 
   // Handle Stop event
