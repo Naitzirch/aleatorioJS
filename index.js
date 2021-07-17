@@ -76,7 +76,7 @@ var typeFeedback;
   socket.on('stopTyping', function() {
     typeFeedback = setTimeout(function() {
       io.to(destination).emit('removeFeedback', socket.id);
-    }, 3000);
+    }, 5000);
   });
 
   // Handle Stop event
