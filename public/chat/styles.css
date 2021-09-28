@@ -94,7 +94,7 @@ p {
 
 #footer {
   display: flex;
-  height: 50px;
+  min-height: 50px;
   background-color: #d5f4e6;
 }
 
@@ -102,20 +102,36 @@ p {
   width: calc(100% - 100px);
 }
 
-#message {
+#messageContainer {
   margin: 4px;
-  width: calc(100% - 36px);
-  height: calc(100% - 14px);
-  padding-left: 20px;
+  width: calc(100% - 16);
+  min-height: calc(100% - 14px);
+	max-height: 4em;
   outline: none;
   border: 3px solid #ccc;
   font-size: large;
 	background-color: lightgray;
 }
 
-#message:focus {
+#messageContainer:focus {
 	border: 3px solid #bfd9c9;
+}
+
+#message {
+	margin-left: 10px;
+	margin-top: 0px;
+	width: calc(100% - 20px);
+	height: 100%;
+	max-height: inherit;
+	overflow: auto;
 	caret-color: hsla(0, 1%, 62%, 0.4);
+	overflow-wrap: break-word;
+
+	color: gray;
+}
+
+#message:focus {
+	outline: 0px solid transparent;
 }
 
 #send {
@@ -125,7 +141,7 @@ p {
   align-items: center;
   justify-content: center;
   width: 92px;
-  height: calc(100% - 8px);
+  min-height: calc(100% - 8px);
   background-color: #d5f4e6;
   border-radius: 3px;
 	transition: color 0.3s;
@@ -147,12 +163,12 @@ p {
 
 @media screen and (max-width: 499px){
 
-  #message {
-		border-radius: 50px;
+  #messageContainer {
+		border-radius: 20px;
 	}
 
 	#send {
-		border-radius: 50px;
+		border-radius: 20px;
 	}
 
 }
