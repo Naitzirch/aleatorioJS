@@ -17,11 +17,19 @@ app.use(express.static('public'));
 // Socket setup
 var io = socket(server);
 
-
+var statsSocket = 0;
 var roomsArray = [];
 
 io.on('connection', function(socket){
-  socket.broadcast.emit('updateUsers', io.sockets.adapter.sids.size);
+
+  // to update stats
+  socket.on('stats', function(){
+    statsSocket = socket.id;
+  })
+  if (statsSocket){
+    io.to(statsSocket).emit('updateUsers', io.sockets.adapter.sids.size);
+  }
+
   console.log('made socket connection', socket.id);
 
   // Handle pairing event
@@ -94,7 +102,7 @@ var typeFeedback;
 
   // Disconnect logic
   socket.on('disconnect', function(){
-    socket.broadcast.emit('updateUsers', io.sockets.adapter.sids.size);
+    io.to(statsSocket).emit('updateUsers', io.sockets.adapter.sids.size);
     console.log('disconnect');
     quit_room(destination, socket.id);
   });

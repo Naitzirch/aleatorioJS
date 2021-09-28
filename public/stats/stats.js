@@ -10,7 +10,10 @@ else {
 
 var nbUsers = document.getElementById('nbUsers');
 
+socket.on('connect', function(){
+  socket.emit('stats');
+});
+
 socket.on('updateUsers', function(data){
-  console.log(data);
   nbUsers.innerText = data - 1;
 });
