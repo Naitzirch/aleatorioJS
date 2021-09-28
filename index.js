@@ -39,7 +39,7 @@ io.on('connection', function(socket){
         socket.join(destination);
         setTimeout(function(){
           io.to(destination).emit('roomFound');
-        }, Math.floor(Math.random() * 5000));
+        }, Math.floor(Math.random() * 4000));
         // connect after random timeout
         // to avoid instantly connecting to the same person
         roomFound = true;

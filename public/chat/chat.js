@@ -1,7 +1,7 @@
 
 
 // Make connection
-var development = false;
+var development = true;
 var socket;
 if (development){
   socket = io.connect('http://localhost:4000');
@@ -16,7 +16,8 @@ var message = document.getElementById('message');
     btn = document.getElementById('send'),
     output = document.getElementById('output'),
     feedback = document.getElementById('feedback'),
-    thesocket = document.getElementById('thesocket');
+    thesocket = document.getElementById('thesocket')
+    messageContainer = document.getElementById('messageContainer');
 
 // Emit events
 btn.addEventListener('click', function(){
@@ -30,11 +31,12 @@ document.addEventListener('keydown', function(e){
 });
 
 message.addEventListener('keypress', function(e){
-  if (e.key === 'Enter'){
+  if (e.key == 'Enter'){
     socket.emit('chat', {
-      message: message.value
+      message: message.textContent
     });
-    message.value = '';
+    e.preventDefault();
+    message.textContent = '';
   }
 });
 
@@ -56,8 +58,11 @@ socket.on('connect', function(){
 socket.on('roomFound', function(){
   btn.innerHTML = 'Esc';
   //thesocket.innerHTML += (" " + socket.id);
-  message.removeAttribute('disabled');
-  message.style.backgroundColor = "white";
+  message.textContent = "";
+  message.style.color = "black";
+  message.setAttribute('contenteditable', true);
+  messageContainer.style.backgroundColor = "white";
+  messageContainer.style.border = "3px solid #bfd9c9";
 });
 
 socket.on('chat', function(data, socketId){
@@ -89,8 +94,11 @@ socket.on('removeFeedback', function(socketId){
 });
 
 socket.on('strangerQuit', function(socketId){
-  message.setAttribute('disabled', true);
-  message.style.backgroundColor = "lightgray";
+  message.setAttribute('contenteditable', false);
+  messageContainer.style.backgroundColor = "lightgray";
+  messageContainer.style.borderColor = "#ccc";
+  message.style.color = "gray";
+  message.textContent = "Message";
   if (socket.id === socketId){
     feedback.innerHTML = "You disconnected";
   }
@@ -105,7 +113,6 @@ function buttonLogic(){
   if (btn.innerText === 'Start'){
     output.innerHTML = "";
     feedback.innerHTML = "";
-    message.value = '';
     btn.innerText = 'Searching';
     socket.emit('search');
   }
@@ -116,3 +123,5 @@ function buttonLogic(){
     socket.emit('stop');
   }
 }
+
+//Estatic
