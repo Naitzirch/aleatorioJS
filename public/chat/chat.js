@@ -1,7 +1,7 @@
 
 
 // Make connection
-var development = true;
+var development = false;
 var socket;
 if (development){
   socket = io.connect('http://localhost:4000');
