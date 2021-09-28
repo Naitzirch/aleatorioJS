@@ -9,19 +9,23 @@ var server = app.listen(4000, function(){
   console.log('listening to requests on port 4000');
 });
 
+
+
 // Static files
 app.use(express.static('public'));
 
 // Socket setup
 var io = socket(server);
 
+
 var roomsArray = [];
 
 io.on('connection', function(socket){
-  console.log('made socket connection', socket.id)
-  var destination;
+  socket.broadcast.emit('updateUsers', io.sockets.adapter.sids.size);
+  console.log('made socket connection', socket.id);
 
   // Handle pairing event
+  var destination;
   socket.on('search', function(){
     if (io.sockets.adapter.rooms.get(destination) &&
         io.sockets.adapter.rooms.get(destination).has(socket.id)){
@@ -33,7 +37,11 @@ io.on('connection', function(socket){
       if (io.sockets.adapter.rooms.get(roomsArray[room]).size < 2) {
         destination = roomsArray[room];
         socket.join(destination);
-        io.to(destination).emit('roomFound');
+        setTimeout(function(){
+          io.to(destination).emit('roomFound');
+        }, Math.floor(Math.random() * 5000));
+        // connect after random timeout
+        // to avoid instantly connecting to the same person
         roomFound = true;
         break;
       }
@@ -86,6 +94,7 @@ var typeFeedback;
 
   // Disconnect logic
   socket.on('disconnect', function(){
+    socket.broadcast.emit('updateUsers', io.sockets.adapter.sids.size);
     console.log('disconnect');
     quit_room(destination, socket.id);
   });
