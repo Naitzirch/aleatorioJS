@@ -60,9 +60,10 @@ socket.on('roomFound', function(){
   //thesocket.innerHTML += (" " + socket.id);
   message.textContent = "";
   message.style.color = "black";
-  message.setAttribute('contenteditable', true);
   messageContainer.style.backgroundColor = "white";
   messageContainer.style.border = "3px solid #bfd9c9";
+  message.setAttribute('contenteditable', true);
+  message.focus();
 });
 
 socket.on('chat', function(data, socketId){
