@@ -25,6 +25,7 @@ io.on('connection', function(socket){
   // to update stats
   socket.on('stats', function(){
     statsSocket = socket.id;
+    socket.emit('updateUsers', io.sockets.adapter.sids.size);
   })
   if (statsSocket){
     io.to(statsSocket).emit('updateUsers', io.sockets.adapter.sids.size);
