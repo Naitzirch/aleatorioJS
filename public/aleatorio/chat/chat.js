@@ -7,7 +7,7 @@ if (development){
   socket = io.connect('http://localhost:4000');
 }
 else {
-  socket = io.connect('naitzirch.ddns.net', { secure: true, port: 443}); //https://aleatorio.net
+  socket = io.connect('nait.dev', { secure: true, port: 443});
 }
 
 
